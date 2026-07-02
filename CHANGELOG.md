@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-02
+
 ### Added
 - **Optional `include_header` argument to `LIST`.** `LIST(range; count;
   include_header)` — when `include_header` is `1`, the range's first row is
@@ -36,5 +38,6 @@ last *N* rows of a range.
 - README documenting usage, range-syntax rules, build/install, and packaging
   notes.
 
-[Unreleased]: https://github.com/davidjayjackson/calc_list_first_last/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/davidjayjackson/calc_list_first_last/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/davidjayjackson/calc_list_first_last/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.0.0

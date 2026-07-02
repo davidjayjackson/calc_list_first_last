@@ -148,4 +148,4 @@ ships the `uno` module — a plain venv does not):
 ## Changelog
 
 Release history is in [CHANGELOG.md](CHANGELOG.md). The latest release is
-[v1.0.0](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.0.0).
+[v1.1.0](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.1.0).
