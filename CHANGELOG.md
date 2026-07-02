@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Install the package as `LIST.oxt`.** LibreOffice keys the "List rows"
+  macro's script URL on the installed `.oxt` filename, so installing under a
+  versioned name (e.g. `LIST-1.1.0.oxt`) broke the command with
+  `KeyError: 'LIST.oxt'`. The v1.1.0 release asset is now named `LIST.oxt` and
+  the README install instructions add it directly (no rename needed).
+
 ## [1.1.0] - 2026-07-02
 
 ### Added
