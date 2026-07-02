@@ -30,9 +30,27 @@ select the output block (rows &times; columns), type the formula, and press
 | a 5&times;3 block | `=LIST(A1:C100; 5)`  | first 5 rows |
 | a 5&times;3 block | `=LIST(A1:C100; -5)` | last 5 rows |
 
-`LIST` appears in the Function Wizard under the **Add-In** category. Avoid
-whole-column references like `A:C` — they hand the function a million-row
-matrix on every recalc. Use a bounded range.
+`LIST` appears in the Function Wizard under the **Add-In** category.
+
+### Range syntax
+
+The `range` argument follows normal LibreOffice Calc rules — **not** Google
+Sheets rules. In particular, open-ended references like `A2:C` are **invalid**
+in Calc (they return `#NAME?`).
+
+| Range | Valid? | Meaning |
+| --- | :---: | --- |
+| `A2:C13`        | ✅ | bounded — rows 2 to 13 |
+| `A2:C1000`      | ✅ | bounded with headroom — **recommended** |
+| `A2:C1048576`   | ✅ | row 2 to the last row (1048576 = Calc's max) |
+| `A:C`           | ✅ | whole columns A–C (**includes** the header row 1) |
+| `A2:C`          | ❌ | open-ended range — **not supported**, gives `#NAME?` |
+
+Prefer a **bounded** range such as `A2:C1000`. Whole-column (`A:C`) and
+max-row (`…:C1048576`) references work but hand the function a ~1,000,000-row
+matrix on every recalc, which is slow. If you would rather not specify the last
+row at all, use the **List rows** command below — it auto-detects the data
+block for you.
 
 ## 2. The "List rows" command
 
