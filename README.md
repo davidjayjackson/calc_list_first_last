@@ -120,8 +120,12 @@ Pass `-LibreOffice` if LibreOffice is not at `C:\Program Files\LibreOffice`.
 
 ## Install
 
+Download `LIST-1.1.0.oxt` from the
+[latest release](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.1.0)
+(or build it yourself — see above, which produces `build\LIST.oxt`), then:
+
 ```powershell
-& "C:\Program Files\LibreOffice\program\unopkg.com" add --force .\build\LIST.oxt
+& "C:\Program Files\LibreOffice\program\unopkg.com" add --force .\LIST-1.1.0.oxt
 ```
 
 Restart LibreOffice. Remove with:
