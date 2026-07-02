@@ -120,22 +120,18 @@ Pass `-LibreOffice` if LibreOffice is not at `C:\Program Files\LibreOffice`.
 
 ## Install
 
-Download `LIST-1.1.0.oxt` from the
+Download `LIST.oxt` from the
 [latest release](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.1.0)
-(or build it yourself — see above, which produces `build\LIST.oxt`).
-
-**Install it under the filename `LIST.oxt`.** LibreOffice keys the menu/toolbar
-macro's script URL on the installed `.oxt` filename, so a package installed as
-`LIST-1.1.0.oxt` breaks the **List rows…** command with
-`KeyError: 'LIST.oxt'`. Rename the download first, then add it:
+(or build it yourself — see above, which also produces `build\LIST.oxt`), then:
 
 ```powershell
-Rename-Item .\LIST-1.1.0.oxt LIST.oxt
 & "C:\Program Files\LibreOffice\program\unopkg.com" add --force .\LIST.oxt
 ```
 
-(If you built it yourself, `build\LIST.oxt` is already named correctly — just
-`add --force .\build\LIST.oxt`.)
+**Keep the filename `LIST.oxt`.** LibreOffice keys the menu/toolbar macro's
+script URL on the installed `.oxt` filename, so installing the package under a
+different name (e.g. `LIST-1.1.0.oxt`) breaks the **List rows…** command with
+`KeyError: 'LIST.oxt'`.
 
 Restart LibreOffice. Remove with:
 
