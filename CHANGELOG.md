@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Optional `include_header` argument to `LIST`.** `LIST(range; count;
+  include_header)` — when `include_header` is `1`, the range's first row is
+  always returned as a header and `count` selects from the remaining data rows
+  only. Defaults to `0`; `TRUE()`/`FALSE()` are also accepted.
+- **"Include header row" checkbox** in the "List rows" dialog, applying the
+  same header behavior to the menu/toolbar command.
+
 ## [1.0.0] - 2026-07-02
 
 First release of **LIST**, a LibreOffice Calc extension for listing the first or
