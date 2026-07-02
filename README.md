@@ -135,3 +135,8 @@ ships the `uno` module — a plain venv does not):
 & "C:\Program Files\LibreOffice\program\python.exe" tools\test_list.py
 & "C:\Program Files\LibreOffice\program\python.exe" tools\test_macro.py
 ```
+
+## Changelog
+
+Release history is in [CHANGELOG.md](CHANGELOG.md). The latest release is
+[v1.0.0](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.0.0).
