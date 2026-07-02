@@ -1,5 +1,7 @@
 # calc_list_first_last
 
+<img src="assets/logo-wordmark.png" alt="LIST — first & last rows for LibreOffice Calc" width="480">
+
 A LibreOffice Calc extension that returns the first or last *N* rows of a
 range. It offers **two** ways to do this, because LibreOffice functions cannot
 "spill" a result across cells the way Excel 365 does:
@@ -38,6 +40,21 @@ Menu **LIST &rsaquo; List rows...** (also a toolbar button). Click a cell
 inside your data first; the command auto-detects the contiguous data block,
 asks for a row count and an output cell, then writes the rows there. Re-run it
 to refresh. This has no whole-column penalty and needs no Ctrl+Shift+Enter.
+
+## Screenshots
+
+**The `LIST` function** — a `Ctrl+Shift+Enter` array formula returning the first
+5 rows:
+
+![LIST function](assets/screenshot-function.png)
+
+**The "List rows" command** — menu/toolbar action that writes the rows into the
+sheet:
+
+![List rows command](assets/screenshot-command.png)
+
+> The screenshots are rendered UI illustrations of the extension (produced from
+> `assets/screenshot-*.svg`). Logos live in `assets/logo-*.svg` / `.png`.
 
 ## Project layout
 
