@@ -1,0 +1,28 @@
+#include <com/sun/star/uno/XInterface.idl>
+
+module com { module example { module list {
+
+    /** Add-in interface for the LIST Calc function. */
+    interface XList
+    {
+        interface ::com::sun::star::uno::XInterface;
+
+        /** Return the first or last N rows of a cell range.
+
+            @param data
+                the cell range, passed by Calc as a matrix (rows of columns).
+
+            @param count
+                number of rows to return. A positive value returns the first
+                <em>count</em> rows; a negative value returns the last
+                <em>|count|</em> rows.
+
+            @returns
+                a matrix (rows of columns) containing the selected rows.
+         */
+        sequence< sequence< any > > list(
+            [in] sequence< sequence< any > > data,
+            [in] long count );
+    };
+
+}; }; };

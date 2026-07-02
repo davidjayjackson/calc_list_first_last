@@ -1,2 +1,102 @@
 # calc_list_first_last
-The objective is to create an add-in for LibreOffice Calc called "list" that lists the x number of first or last rows.
+
+A LibreOffice Calc extension that returns the first or last *N* rows of a
+range. It offers **two** ways to do this, because LibreOffice functions cannot
+"spill" a result across cells the way Excel 365 does:
+
+1. **`LIST` worksheet function** — a live array formula.
+2. **`LIST` &rsaquo; `List rows...` menu / toolbar command** — a macro that
+   *writes* the rows into the sheet (the practical "spill").
+
+In both, the count is signed:
+
+* `count > 0` &rarr; the **first** `count` rows
+* `count < 0` &rarr; the **last** `|count|` rows
+
+## 1. The `LIST` function
+
+```
+=LIST(range; count)
+```
+
+LibreOffice does not auto-spill, so enter `LIST` as an **array formula**:
+select the output block (rows &times; columns), type the formula, and press
+**Ctrl+Shift+Enter**.
+
+| Select | Formula (Ctrl+Shift+Enter) | Returns |
+| --- | --- | --- |
+| a 5&times;3 block | `=LIST(A1:C100; 5)`  | first 5 rows |
+| a 5&times;3 block | `=LIST(A1:C100; -5)` | last 5 rows |
+
+`LIST` appears in the Function Wizard under the **Add-In** category. Avoid
+whole-column references like `A:C` — they hand the function a million-row
+matrix on every recalc. Use a bounded range.
+
+## 2. The "List rows" command
+
+Menu **LIST &rsaquo; List rows...** (also a toolbar button). Click a cell
+inside your data first; the command auto-detects the contiguous data block,
+asks for a row count and an output cell, then writes the rows there. Re-run it
+to refresh. This has no whole-column penalty and needs no Ctrl+Shift+Enter.
+
+## Project layout
+
+```
+idl/com/example/list/XList.idl   UNO interface for the add-in function
+src/list_impl.py                 Python component implementing the LIST function
+src/list_rows.py                 Python macro behind the "List rows" command
+registration/CalcAddIns.xcu      Registers LIST with Calc (names, help, category)
+registration/Addons.xcu          Registers the LIST menu + toolbar button
+registration/manifest.xml        Package manifest (-> META-INF/manifest.xml)
+registration/description.xml     Extension metadata
+build.ps1                        Compiles the IDL and packages build/LIST.oxt
+tools/test_list.py               End-to-end test of the LIST function
+tools/test_macro.py              End-to-end test of the "List rows" command
+```
+
+### Two packaging gotchas (both fixed here)
+
+* The IDL file must live at a path matching its module (`com/example/list/`).
+  `unoidl-write`'s source-tree reader derives the UNO module name from the
+  **directory structure**, not from the `module { }` blocks in the file.
+* The script URL for the menu/toolbar (in `Addons.xcu`) must be
+  `vnd.sun.star.script:LIST.oxt|Scripts|python|list_rows.py$list_rows?language=Python&location=user:uno_packages`.
+  Path segments are separated by `|`, and the leading `LIST.oxt` (the installed
+  `.oxt` filename) is required — so keep the package named `LIST.oxt`.
+
+## Build
+
+Requires LibreOffice **with the SDK** installed (for `unoidl-write.exe`).
+
+```powershell
+.\build.ps1        # -> build\LIST.oxt
+```
+
+Pass `-LibreOffice` if LibreOffice is not at `C:\Program Files\LibreOffice`.
+
+## Install
+
+```powershell
+& "C:\Program Files\LibreOffice\program\unopkg.com" add --force .\build\LIST.oxt
+```
+
+Restart LibreOffice. Remove with:
+
+```powershell
+& "C:\Program Files\LibreOffice\program\unopkg.com" remove com.example.list
+```
+
+## Test
+
+The tests drive a headless LibreOffice and use its **bundled** Python (which
+ships the `uno` module — a plain venv does not):
+
+```powershell
+# 1. start a headless instance listening on a UNO socket
+& "C:\Program Files\LibreOffice\program\soffice.com" --headless --norestore `
+    --accept="socket,host=localhost,port=2002;urp;"
+
+# 2. run the clients (each prints RESULT: PASS)
+& "C:\Program Files\LibreOffice\program\python.exe" tools\test_list.py
+& "C:\Program Files\LibreOffice\program\python.exe" tools\test_macro.py
+```

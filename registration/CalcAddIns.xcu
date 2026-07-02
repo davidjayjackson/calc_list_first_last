@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oor:component-data
+    xmlns:oor="http://openoffice.org/2001/registry"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    oor:name="CalcAddIns" oor:package="org.openoffice.Office">
+  <node oor:name="AddInInfo">
+    <node oor:name="com.example.list.ListImpl" oor:op="replace">
+      <node oor:name="AddInFunctions">
+        <node oor:name="list" oor:op="replace">
+          <prop oor:name="DisplayName">
+            <value xml:lang="en">LIST</value>
+          </prop>
+          <prop oor:name="Description">
+            <value xml:lang="en">Returns the first or last N rows of a range. Positive count = first N rows, negative count = last N rows.</value>
+          </prop>
+          <prop oor:name="Category">
+            <value>Add-In</value>
+          </prop>
+          <prop oor:name="CompatibilityName">
+            <value xml:lang="en">LIST</value>
+          </prop>
+          <node oor:name="Parameters">
+            <node oor:name="data" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">range</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">The cell range to list rows from.</value>
+              </prop>
+            </node>
+            <node oor:name="count" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">count</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Number of rows: positive = first N, negative = last N.</value>
+              </prop>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+</oor:component-data>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest:manifest xmlns:manifest="http://openoffice.org/2001/manifest">
+  <manifest:file-entry
+      manifest:media-type="application/vnd.sun.star.uno-typelibrary;type=RDB"
+      manifest:full-path="types/XList.rdb"/>
+  <manifest:file-entry
+      manifest:media-type="application/vnd.sun.star.uno-component;type=Python"
+      manifest:full-path="python/list_impl.py"/>
+  <manifest:file-entry
+      manifest:media-type="application/vnd.sun.star.configuration-data"
+      manifest:full-path="config/CalcAddIns.xcu"/>
+  <manifest:file-entry
+      manifest:media-type="application/vnd.sun.star.configuration-data"
+      manifest:full-path="config/Addons.xcu"/>
+  <manifest:file-entry
+      manifest:media-type="application/vnd.sun.star.framework-script"
+      manifest:full-path="Scripts/python/"/>
+</manifest:manifest>
