@@ -121,7 +121,7 @@ Pass `-LibreOffice` if LibreOffice is not at `C:\Program Files\LibreOffice`.
 ## Install
 
 Download `LIST.oxt` from the
-[latest release](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.1.0)
+[latest release](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.1.1)
 (or build it yourself — see above, which also produces `build\LIST.oxt`), then:
 
 ```powershell
@@ -157,4 +157,4 @@ ships the `uno` module — a plain venv does not):
 ## Changelog
 
 Release history is in [CHANGELOG.md](CHANGELOG.md). The latest release is
-[v1.1.0](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.1.0).
+[v1.1.1](https://github.com/davidjayjackson/calc_list_first_last/releases/tag/v1.1.1).
