@@ -57,8 +57,11 @@ def main():
         apply = provider.getScript(APPLY_URI)
         apply.invoke(("A1:C6", 3, "E1"), (), ())
         apply.invoke(("A1:C6", -2, "E5"), (), ())
+        # include_header=1 -> header row + last 2 data rows
+        apply.invoke(("A1:C6", -2, "E8", 1), (), ())
         first = sheet.getCellRangeByName("E1:G3").getDataArray()
         last = sheet.getCellRangeByName("E5:G6").getDataArray()
+        last_hdr = sheet.getCellRangeByName("E8:G10").getDataArray()
     finally:
         doc.close(False)
         desktop.terminate()
@@ -67,9 +70,11 @@ def main():
         return tuple(tuple(float(x) if isinstance(x, int) else x for x in r)
                      for r in rows)
 
-    ok = first == norm(data[:3]) and last == norm(data[-2:])
+    ok = (first == norm(data[:3]) and last == norm(data[-2:])
+          and last_hdr == norm([data[0]] + data[-2:]))
     print("first 3 rows:", first)
     print("last 2 rows :", last)
+    print("hdr+last 2  :", last_hdr)
     print("RESULT:", "PASS" if ok else "FAIL")
     sys.exit(0 if ok else 1)
 

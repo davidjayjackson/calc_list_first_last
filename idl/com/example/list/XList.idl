@@ -17,12 +17,19 @@ module com { module example { module list {
                 <em>count</em> rows; a negative value returns the last
                 <em>|count|</em> rows.
 
+            @param includeHeader
+                optional. When TRUE, the first row of <em>data</em> is always
+                returned as a header row and <em>count</em> then selects from
+                the remaining data rows only. Defaults to FALSE. Declared as
+                <em>any</em> so it may be omitted in the formula.
+
             @returns
                 a matrix (rows of columns) containing the selected rows.
          */
         sequence< sequence< any > > list(
             [in] sequence< sequence< any > > data,
-            [in] long count );
+            [in] long count,
+            [in] any includeHeader );
     };
 
 }; }; };

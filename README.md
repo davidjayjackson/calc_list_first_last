@@ -18,8 +18,12 @@ In both, the count is signed:
 ## 1. The `LIST` function
 
 ```
-=LIST(range; count)
+=LIST(range; count; include_header)
 ```
+
+`include_header` is **optional** (default `0`). Set it to `1` to always return
+the range's first row as a header row; `count` then selects from the data rows
+below it. (`TRUE()`/`FALSE()` work too, but `1`/`0` are simpler.)
 
 LibreOffice does not auto-spill, so enter `LIST` as an **array formula**:
 select the output block (rows &times; columns), type the formula, and press
@@ -29,6 +33,10 @@ select the output block (rows &times; columns), type the formula, and press
 | --- | --- | --- |
 | a 5&times;3 block | `=LIST(A1:C100; 5)`  | first 5 rows |
 | a 5&times;3 block | `=LIST(A1:C100; -5)` | last 5 rows |
+| a 6&times;3 block | `=LIST(A1:C100; -5; 1)` | header row + last 5 data rows |
+
+Remember the output block must include room for the header row when
+`include_header` is `1` (e.g. select 6 rows for a header + 5 data rows).
 
 `LIST` appears in the Function Wizard under the **Add-In** category.
 
@@ -56,8 +64,9 @@ block for you.
 
 Menu **LIST &rsaquo; List rows...** (also a toolbar button). Click a cell
 inside your data first; the command auto-detects the contiguous data block,
-asks for a row count and an output cell, then writes the rows there. Re-run it
-to refresh. This has no whole-column penalty and needs no Ctrl+Shift+Enter.
+asks for a row count and an output cell — with an **Include header row**
+checkbox — then writes the rows there. Re-run it to refresh. This has no
+whole-column penalty and needs no Ctrl+Shift+Enter.
 
 ## Screenshots
 

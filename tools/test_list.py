@@ -47,6 +47,11 @@ def main():
         # count < 0 -> last |N| rows
         sheet.getCellRangeByName("E5:G6").setArrayFormula("=LIST(A1:C6;-2)")
         last = sheet.getCellRangeByName("E5:G6").getDataArray()
+
+        # include_header 1 -> header row + last |N| data rows
+        sheet.getCellRangeByName("E8:G10").setArrayFormula(
+            "=LIST(A1:C6;-2;1)")
+        last_hdr = sheet.getCellRangeByName("E8:G10").getDataArray()
     finally:
         doc.close(False)
         desktop.terminate()
@@ -56,13 +61,18 @@ def main():
                      for row in rows)
 
     exp_first, exp_last = norm(data[:3]), norm(data[-2:])
+    # header (row 0) + last 2 data rows (rows 1..)
+    exp_last_hdr = norm([data[0]] + data[-2:])
     ok_first, ok_last = first == exp_first, last == exp_last
+    ok_last_hdr = last_hdr == exp_last_hdr
 
     print("first 3 rows:", first)
     print("last 2 rows :", last)
-    print("MATCH_FIRST:", ok_first)
-    print("MATCH_LAST :", ok_last)
-    ok = ok_first and ok_last
+    print("hdr+last 2  :", last_hdr)
+    print("MATCH_FIRST     :", ok_first)
+    print("MATCH_LAST      :", ok_last)
+    print("MATCH_LAST_HDR  :", ok_last_hdr)
+    ok = ok_first and ok_last and ok_last_hdr
     print("RESULT:", "PASS" if ok else "FAIL")
     sys.exit(0 if ok else 1)
 

@@ -35,17 +35,25 @@ def _range_name(addr):
         _col_name(addr.EndColumn), addr.EndRow + 1)
 
 
-def _write(doc, source_name, count, target_name):
+def _write(doc, source_name, count, target_name, include_header=False):
     """Write the first/last `count` rows of source_name into target_name.
+
+    When include_header is true, the source's first row is always written as a
+    header and `count` selects from the remaining data rows only.
 
     Returns (rows_written, cols_written).
     """
     sheet = doc.getCurrentController().getActiveSheet()
     data = sheet.getCellRangeByName(source_name).getDataArray()
-    if count >= 0:
-        rows = data[:count]
+    if include_header:
+        header, body = data[:1], data[1:]
     else:
-        rows = data[count:]
+        header, body = (), data
+    if count >= 0:
+        rows = body[:count]
+    else:
+        rows = body[count:]
+    rows = header + rows
     if not rows:
         return (0, 0)
     nrows, ncols = len(rows), len(rows[0])
@@ -66,11 +74,14 @@ def _msgbox(ctx, doc, message, title, kind=INFOBOX):
 
 
 def _ask(ctx, default_count, default_target):
-    """Modal dialog for count + output cell. Returns (count, target) or None."""
+    """Modal dialog for count + output cell + header flag.
+
+    Returns (count, target, include_header) or None.
+    """
     smgr = ctx.getServiceManager()
     model = smgr.createInstanceWithContext(
         "com.sun.star.awt.UnoControlDialogModel", ctx)
-    model.Width, model.Height, model.Title = 190, 96, "List rows"
+    model.Width, model.Height, model.Title = 190, 112, "List rows"
 
     def add(name, kind, **props):
         ctrl = model.createInstance("com.sun.star.awt.UnoControl%sModel" % kind)
@@ -86,11 +97,13 @@ def _ask(ctx, default_count, default_target):
         Label="Output top-left cell:")
     add("edCell", "Edit", PositionX=96, PositionY=28, Width=86, Height=14,
         Text=default_target)
-    add("lblHint", "FixedText", PositionX=6, PositionY=50, Width=178, Height=20,
-        Label="Positive = first N rows, negative = last N rows.")
-    add("btnOk", "Button", PositionX=74, PositionY=76, Width=52, Height=14,
+    add("chkHeader", "CheckBox", PositionX=6, PositionY=51, Width=178,
+        Height=12, Label="Include header row (range's first row)", State=0)
+    add("lblHint", "FixedText", PositionX=6, PositionY=67, Width=178,
+        Height=20, Label="Positive = first N rows, negative = last N rows.")
+    add("btnOk", "Button", PositionX=74, PositionY=92, Width=52, Height=14,
         Label="OK", PushButtonType=_BTN_OK, DefaultButton=True)
-    add("btnCancel", "Button", PositionX=130, PositionY=76, Width=52,
+    add("btnCancel", "Button", PositionX=130, PositionY=92, Width=52,
         Height=14, Label="Cancel", PushButtonType=_BTN_CANCEL)
 
     dialog = smgr.createInstanceWithContext(
@@ -101,6 +114,7 @@ def _ask(ctx, default_count, default_target):
     ok = dialog.execute()
     count_text = dialog.getControl("edCount").getModel().Text.strip()
     cell_text = dialog.getControl("edCell").getModel().Text.strip()
+    include_header = dialog.getControl("chkHeader").getModel().State == 1
     dialog.dispose()
     if ok != _BTN_OK:
         return None
@@ -110,7 +124,7 @@ def _ask(ctx, default_count, default_target):
         return None
     if not cell_text:
         return None
-    return (count, cell_text)
+    return (count, cell_text, include_header)
 
 
 # --- entry points ---------------------------------------------------------
@@ -141,8 +155,8 @@ def list_rows(*args):
         answer = _ask(ctx, "10", default_target)
         if answer is None:
             return
-        count, target_name = answer
-        nrows, _ = _write(doc, source_name, count, target_name)
+        count, target_name, include_header = answer
+        nrows, _ = _write(doc, source_name, count, target_name, include_header)
         if nrows == 0:
             _msgbox(ctx, doc, "Nothing to list (count was 0 or range empty).",
                     "List rows")
@@ -150,10 +164,11 @@ def list_rows(*args):
         _msgbox(ctx, doc, "Error: %s" % exc, "List rows", ERRORBOX)
 
 
-def apply_rows(source_name, count, target_name):
+def apply_rows(source_name, count, target_name, include_header=0):
     """Headless entry point for tests: no dialogs. Returns 'OK:RxC'."""
     doc = XSCRIPTCONTEXT.getDocument()  # noqa: F821 (injected)
-    nrows, ncols = _write(doc, source_name, int(count), target_name)
+    nrows, ncols = _write(doc, source_name, int(count), target_name,
+                          bool(int(include_header)))
     return "OK:%dx%d" % (nrows, ncols)
 
 

@@ -12,7 +12,7 @@
             <value xml:lang="en">LIST</value>
           </prop>
           <prop oor:name="Description">
-            <value xml:lang="en">Returns the first or last N rows of a range. Positive count = first N rows, negative count = last N rows.</value>
+            <value xml:lang="en">Returns the first or last N rows of a range. Positive count = first N rows, negative count = last N rows. Set include_header to 1 to always keep the range's first row as a header.</value>
           </prop>
           <prop oor:name="Category">
             <value>Add-In</value>
@@ -35,6 +35,14 @@
               </prop>
               <prop oor:name="Description">
                 <value xml:lang="en">Number of rows: positive = first N, negative = last N.</value>
+              </prop>
+            </node>
+            <node oor:name="includeHeader" oor:op="replace">
+              <prop oor:name="DisplayName">
+                <value xml:lang="en">include_header</value>
+              </prop>
+              <prop oor:name="Description">
+                <value xml:lang="en">Optional. 1 keeps the range's first row as a header; count then selects from the data rows only (default 0).</value>
               </prop>
             </node>
           </node>
