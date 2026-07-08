@@ -83,6 +83,12 @@ sheet:
 > The screenshots are rendered UI illustrations of the extension (produced from
 > `assets/screenshot-*.svg`). Logos live in `assets/logo-*.svg` / `.png`.
 
+## Related add-ins
+
+Also see [Eurostat Data for Calc](https://github.com/davidjayjackson/java_eurostats) — adds a
+`EUROSTATDATA()` function for pulling Eurostat data straight into a sheet. [Latest
+release](https://github.com/davidjayjackson/java_eurostats/releases/latest).
+
 ## Project layout
 
 ```
